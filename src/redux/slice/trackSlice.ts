@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  AddTrackPayload,
+  CreateTrackPayload,
   Track,
   TrackMap,
   Tracks,
@@ -31,12 +31,12 @@ const trackSlice = createSlice({
     getTrackByIdInitiated,
     getTrackByIdCompleted,
     getTrackByIdError,
-    addTrackInitiated,
-    addTrackCompleted,
-    addTrackError,
-    editTrackInitiated,
-    editTrackCompleted,
-    editTrackError,
+    createTrackInitiated,
+    createTrackCompleted,
+    createTrackError,
+    updateTrackInitiated,
+    updateTrackCompleted,
+    updateTrackError,
     deleteTrackInitiated,
     deleteTrackCompleted,
     deleteTrackError,
@@ -52,12 +52,12 @@ export const {
   getTrackByIdInitiated: getTrackByIdInitiatedAction,
   getTrackByIdCompleted: getTrackByIdCompletedAction,
   getTrackByIdError: getTrackByIdErrorAction,
-  addTrackInitiated: addTrackInitiatedAction,
-  addTrackCompleted: addTrackCompletedAction,
-  addTrackError: addTrackErrorAction,
-  editTrackInitiated: editTrackInitiatedAction,
-  editTrackCompleted: editTrackCompletedAction,
-  editTrackError: editTrackErrorAction,
+  createTrackInitiated: createTrackInitiatedAction,
+  createTrackCompleted: createTrackCompletedAction,
+  createTrackError: createTrackErrorAction,
+  updateTrackInitiated: updateTrackInitiatedAction,
+  updateTrackCompleted: updateTrackCompletedAction,
+  updateTrackError: updateTrackErrorAction,
   deleteTrackInitiated: deleteTrackInitiatedAction,
   deleteTrackCompleted: deleteTrackCompletedAction,
   deleteTrackError: deleteTrackErrorAction,
@@ -71,17 +71,17 @@ function getAllTracksInitiated(state: TrackState) {
 
 function getAllTracksCompleted(
   state: TrackState,
-  action: PayloadAction<{ allTracks: TrackMap }>
+  action: PayloadAction<{ allTracks: TrackMap }>,
 ) {
   state.loading = false;
   action.payload.allTracks.forEach(
-    (track) => (state.allTracks = { ...state.allTracks, [track.id]: track })
+    (track) => (state.allTracks = { ...state.allTracks, [track.id]: track }),
   );
 }
 
 function getAllTracksError(
   state: TrackState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
@@ -89,7 +89,7 @@ function getAllTracksError(
 
 function getTrackByIdInitiated(
   state: TrackState,
-  action: PayloadAction<{ id: string }>
+  action: PayloadAction<{ id: string }>,
 ) {
   state.loading = true;
   state.selectedTrackId = action.payload.id;
@@ -97,7 +97,7 @@ function getTrackByIdInitiated(
 
 function getTrackByIdCompleted(
   state: TrackState,
-  action: PayloadAction<{ track: Track }>
+  action: PayloadAction<{ track: Track }>,
 ) {
   state.loading = false;
   state.allTracks = {
@@ -108,54 +108,54 @@ function getTrackByIdCompleted(
 
 function getTrackByIdError(
   state: TrackState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
 }
 
-function addTrackInitiated(
+function createTrackInitiated(
   state: TrackState,
-  _action: PayloadAction<{ track: AddTrackPayload }>
+  _action: PayloadAction<{ track: CreateTrackPayload }>,
 ) {
   state.loading = true;
 }
 
-function addTrackCompleted(
+function createTrackCompleted(
   state: TrackState,
-  action: PayloadAction<{ track: Track }>
+  action: PayloadAction<{ track: Track }>,
 ) {
   state.loading = false;
   state.allTracks[action.payload.track.id] = action.payload.track;
 }
 
-function addTrackError(
+function createTrackError(
   state: TrackState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
 }
 
-function editTrackInitiated(
+function updateTrackInitiated(
   state: TrackState,
-  _action: PayloadAction<{ track: UpdateTrackPayload }>
+  _action: PayloadAction<{ track: UpdateTrackPayload }>,
 ) {
   state.loading = true;
 }
 
-function editTrackCompleted(
+function updateTrackCompleted(
   state: TrackState,
-  action: PayloadAction<{ track: Track }>
+  action: PayloadAction<{ track: Track }>,
 ) {
   state.loading = false;
   state.allTracks[action.payload.track.id] = action.payload.track;
   state.selectedTrackId = "";
 }
 
-function editTrackError(
+function updateTrackError(
   state: TrackState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
@@ -163,14 +163,14 @@ function editTrackError(
 
 function deleteTrackInitiated(
   state: TrackState,
-  _action: PayloadAction<string>
+  _action: PayloadAction<string>,
 ) {
   state.loading = true;
 }
 
 function deleteTrackCompleted(
   state: TrackState,
-  action: PayloadAction<{ id: string; message: string }>
+  action: PayloadAction<{ id: string; message: string }>,
 ) {
   delete state.allTracks[action.payload.id];
   state.message = action.payload.message;
@@ -179,7 +179,7 @@ function deleteTrackCompleted(
 
 function deleteTrackError(
   state: TrackState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;

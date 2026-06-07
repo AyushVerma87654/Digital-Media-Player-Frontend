@@ -15,9 +15,9 @@ import { Podcast } from "../models/podcast";
 import { addRecentlyPlayedInitiatedAction } from "../redux/slice/recentlyPlayedSlice";
 import { userSelector } from "../redux/selectors/userSelector";
 
-interface AudioPlayerProps extends ReduxProps {}
+interface MediaPlayerProps extends ReduxProps {}
 
-const AudioPlayer: FC<AudioPlayerProps> = ({
+const MediaPlayer: FC<MediaPlayerProps> = ({
   selectedTrack,
   selectedPodcast,
   fetchPodcastById,
@@ -131,4 +131,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
 
-export default connector(AudioPlayer);
+export default connector(MediaPlayer);

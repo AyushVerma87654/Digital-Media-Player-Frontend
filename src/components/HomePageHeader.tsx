@@ -3,9 +3,9 @@ import { connect, ConnectedProps } from "react-redux";
 import { AppState } from "../redux/store";
 import { userSelector } from "../redux/selectors/userSelector";
 
-interface DashboardHeaderProps extends ReduxProps {}
+interface HomePageHeaderProps extends ReduxProps {}
 
-const DashboardHeader: FC<DashboardHeaderProps> = ({ user }) => {
+const HomePageHeader: FC<HomePageHeaderProps> = ({ user }) => {
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
@@ -30,4 +30,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
 
-export default connector(DashboardHeader);
+export default connector(HomePageHeader);

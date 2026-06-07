@@ -15,9 +15,9 @@ import { useNavigate } from "react-router-dom";
 import { allTracksMapSelector } from "../redux/selectors/trackSelector";
 import { allPodcastsMapSelector } from "../redux/selectors/podcastSelector";
 
-interface AdminDashboardProps extends ReduxProps {}
+interface CreatorStudioPageProps extends ReduxProps {}
 
-const AdminDashboard: FC<AdminDashboardProps> = ({
+const CreatorStudioPage: FC<CreatorStudioPageProps> = ({
   tracks,
   podcasts,
   deleteTrack,
@@ -29,7 +29,7 @@ const AdminDashboard: FC<AdminDashboardProps> = ({
   const navigate = useNavigate();
   return (
     <div className="bg-linear-to-br from-indigo-500 via-violet-500 to-fuchsia-400 p-6 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800">Creator Studio</h1>
 
       {/* ================= TRACKS ================= */}
       <section className="mb-12">
@@ -45,7 +45,7 @@ const AdminDashboard: FC<AdminDashboardProps> = ({
               text-white cursor-pointer
               hover:shadow-2xl hover:scale-105 transition
             "
-            onClick={() => navigate("/admin/track/add/0")}
+            onClick={() => navigate("/studio/track/add/0")}
           >
             <FaPlus className="text-4xl mb-2" />
             <div className="text-xl font-semibold">Add New Track</div>
@@ -117,7 +117,7 @@ const AdminDashboard: FC<AdminDashboardProps> = ({
               text-white cursor-pointer
               hover:shadow-2xl hover:scale-105 transition
             "
-            onClick={() => navigate("/admin/podcast/add/0")}
+            onClick={() => navigate("/studio/podcast/add/0")}
           >
             <FaPlus className="text-4xl mb-2" />
             <div className="text-xl font-semibold">Add New Podcast</div>
@@ -194,4 +194,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
 
-export default connector(AdminDashboard);
+export default connector(CreatorStudioPage);

@@ -1,8 +1,8 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { createPortal } from "react-dom";
-import Button from "../components/Button";
-import Input from "../components/Input";
+import Button from "./Button";
+import Input from "./Input";
 import { AppState } from "../redux/store";
 import { selectedPlaylistWithAudiosSelector } from "../redux/selectors/playlistSelector";
 import { addAudioToPlaylistInitiatedAction } from "../redux/slice/playlistSlice";
@@ -12,13 +12,13 @@ import { allPodcastsMapSelector } from "../redux/selectors/podcastSelector";
 import { getAllTracksInitiatedAction } from "../redux/slice/trackSlice";
 import { getAllPodcastsInitiatedAction } from "../redux/slice/podcastSlice";
 
-interface AddAudioToPlaylistModalProps extends ReduxProps {
+interface AddMediaToPlaylistModalProps extends ReduxProps {
   playlistId: string;
   contentType: AudioContentType;
   onClose: () => void;
 }
 
-const AddAudioToPlaylistModal: FC<AddAudioToPlaylistModalProps> = ({
+const AddMediaToPlaylistModal: FC<AddMediaToPlaylistModalProps> = ({
   playlistId,
   contentType,
   onClose,
@@ -185,4 +185,4 @@ const mapDispatch = {
 const connector = connect(mapState, mapDispatch);
 type ReduxProps = ConnectedProps<typeof connector>;
 
-export default connector(AddAudioToPlaylistModal);
+export default connector(AddMediaToPlaylistModal);

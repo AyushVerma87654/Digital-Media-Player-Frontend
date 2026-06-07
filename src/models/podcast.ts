@@ -16,7 +16,7 @@ export type Podcast = {
 export type Podcasts = Record<string, Podcast>;
 export type PodcastMap = Podcast[];
 
-export type AddPodcastPayload = {
+export type CreatePodcastPayload = {
   title: string;
   author: string;
   description: string;
@@ -28,6 +28,6 @@ export type AddPodcastPayload = {
   createdBy: string;
 };
 
-export type UpdatePodcastPayload = AddPodcastPayload & {
+export type UpdatePodcastPayload = CreatePodcastPayload & {
   id: string;
 };

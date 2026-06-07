@@ -1,4 +1,4 @@
-import { AddTrackPayload, UpdateTrackPayload } from "../models/track";
+import { CreateTrackPayload, UpdateTrackPayload } from "../models/track";
 import instance from "./axios";
 
 // Get all tracks
@@ -10,7 +10,7 @@ export const getTrackById = async (id: string) =>
   instance.get(`/tracks/${id}`).then((res) => res.data);
 
 // Admin only
-export const createTrack = async (track: AddTrackPayload) =>
+export const createTrack = async (track: CreateTrackPayload) =>
   instance.post("/tracks", { track }).then((res) => res.data);
 
 // Admin only

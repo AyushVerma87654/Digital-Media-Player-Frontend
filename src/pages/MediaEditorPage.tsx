@@ -1,17 +1,17 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import AudioForm from "../components/AudioForm";
+import MediaEditor from "../components/MediaEditor";
 
-const AudioFormPage: FC = () => {
+const MediaEditorPage: FC = () => {
   const { type, task, id } = useParams<{
     type: "track" | "podcast";
-    task: "add" | "edit";
+    task: "create" | "edit";
     id: string;
   }>();
 
   if (!type || !task || !id) return null;
 
-  return <AudioForm type={type} task={task} entityId={id} />;
+  return <MediaEditor type={type} task={task} entityId={id} />;
 };
 
-export default AudioFormPage;
+export default MediaEditorPage;

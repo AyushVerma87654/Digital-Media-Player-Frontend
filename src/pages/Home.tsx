@@ -1,16 +1,16 @@
 import type { FC } from "react";
-import DashboardHeader from "../components/DashboardHeader";
+import HomePageHeader from "../components/HomePageHeader";
 import RecentlyPlayedSection from "../components/RecentlyPlayedSection";
 import PlaylistSection from "../components/PlaylistSection";
 import TrendingTrackSection from "../components/TrendingTrackSection";
 import TrendingPodcastSection from "../components/TrendingPodcastSection";
 
-interface DashboardProps {}
+interface HomePageProps {}
 
-const Dashboard: FC<DashboardProps> = () => {
+const HomePage: FC<HomePageProps> = () => {
   return (
     <div className="p-4 sm:p-6 space-y-8 bg-gray-500">
-      <DashboardHeader />
+      <HomePageHeader />
       <RecentlyPlayedSection />
       <PlaylistSection />
       <TrendingTrackSection />
@@ -19,4 +19,4 @@ const Dashboard: FC<DashboardProps> = () => {
   );
 };
 
-export default Dashboard;
+export default HomePage;

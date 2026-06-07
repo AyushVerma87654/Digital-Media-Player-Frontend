@@ -28,35 +28,19 @@ import { RiVideoUploadLine } from "react-icons/ri";
 import FormikInput from "./FormikInput";
 import Button from "./Button";
 import {
-  buildAddPodcastPayload,
-  buildAddTrackPayload,
+  buildCreatePodcastPayload,
+  buildCreateTrackPayload,
   buildEditPodcastPayload,
   buildEditTrackPayload,
 } from "../utils/payloadBuilders";
 import { userSelector } from "../redux/selectors/userSelector";
+import { MediaEditorValues } from "../models/mediaEditor";
 
 /* ================= TYPES ================= */
 
-export interface AudioFormValues {
-  title: string;
-  coverImageUrl: string;
-  audioUrl: string;
-  duration: number;
-
-  // track
-  artist?: string;
-  album?: string;
-
-  // podcast
-  author?: string;
-  description?: string;
-  episodeTitle?: string;
-  episodeNumber?: number;
-}
-
 interface OwnProps {
   type: "track" | "podcast";
-  task: "add" | "edit";
+  task: "create" | "edit";
   entityId?: string;
 }
 
@@ -103,7 +87,7 @@ const getValidationSchema = (type: "track" | "podcast") =>
 
 /* ================= COMPONENT ================= */
 
-const AudioForm: FC<Props & FormikProps<AudioFormValues>> = ({
+const MediaEditor: FC<Props & FormikProps<MediaEditorValues>> = ({
   values,
   handleSubmit,
   setFieldValue,
@@ -273,7 +257,7 @@ type ReduxProps = ConnectedProps<typeof connector>;
 
 /* ================= FORMIK ================= */
 
-const FormikHOC = withFormik<Props, AudioFormValues>({
+const FormikHOC = withFormik<Props, MediaEditorValues>({
   mapPropsToValues: ({ type, editingTrack, editingPodcast }) => {
     if (type === "track" && editingTrack) return { ...editingTrack };
     if (type === "podcast" && editingPodcast) return { ...editingPodcast };
@@ -298,8 +282,8 @@ const FormikHOC = withFormik<Props, AudioFormValues>({
     const { type, task, entityId, userId } = props;
 
     if (type === "track") {
-      if (task === "add") {
-        const track = buildAddTrackPayload(values, userId);
+      if (task === "create") {
+        const track = buildCreateTrackPayload(values, userId);
         props.addTrack({ track });
       } else {
         if (!entityId) return;
@@ -310,8 +294,8 @@ const FormikHOC = withFormik<Props, AudioFormValues>({
     }
 
     if (type === "podcast") {
-      if (task === "add") {
-        const podcast = buildAddPodcastPayload(values, userId);
+      if (task === "create") {
+        const podcast = buildCreatePodcastPayload(values, userId);
         props.addPodcast({ podcast });
       } else {
         if (!entityId) return;
@@ -323,50 +307,6 @@ const FormikHOC = withFormik<Props, AudioFormValues>({
 
   validateOnBlur: true,
   validateOnChange: true,
-})(AudioForm);
+})(MediaEditor);
 
 export default connector(FormikHOC);
-
-// handleSubmit: (values, { props }) => {
-//   const { type, task } = props;
-
-//   if (type === "track") {
-//     task === "edit" ? props.editTrack(values) : props.addTrack(values);
-//   } else {
-//     task === "edit" ? props.editPodcast(values) : props.addPodcast(values);
-//   }
-// },
-
-//   useEffect(() => {
-//     if (uploadedAudioUrl && uploadedAudioUrl !== values.audioUrl) {
-//       setFieldValue("audioUrl", uploadedAudioUrl);
-//     }
-//   }, [uploadedAudioUrl]);
-
-// useEffect(() => {
-//   return () => {
-//     dispatch(clearUploadState());
-//   };
-// }, []);
-
-// handleSubmit: (values, { props }) => {
-//   const { type, task } = props;
-
-//   if (type === "track") {
-//     task === "edit" ? props.editTrack(values) : props.addTrack(values);
-//   } else {
-//     task === "edit" ? props.editPodcast(values) : props.addPodcast(values);
-//   }
-// },
-
-//   useEffect(() => {
-//     if (uploadedAudioUrl && uploadedAudioUrl !== values.audioUrl) {
-//       setFieldValue("audioUrl", uploadedAudioUrl);
-//     }
-//   }, [uploadedAudioUrl]);
-
-// useEffect(() => {
-//   return () => {
-//     dispatch(clearUploadState());
-//   };
-// }, []);

@@ -11,7 +11,6 @@ import {
   fetchMeInitiatedAction,
   logoutInitiatedAction,
 } from "../redux/slice/userSlice";
-import { UserRole } from "../models/user";
 import { getAllTracksInitiatedAction } from "../redux/slice/trackSlice";
 import { getAllPodcastsInitiatedAction } from "../redux/slice/podcastSlice";
 import { getRecentlyPlaylistInitiatedAction } from "../redux/slice/recentlyPlayedSlice";
@@ -54,12 +53,12 @@ const NavBar: FC<NavBarProps> = ({
         </div>
 
         <div>
-          {isLoggedIn && user.role === UserRole.ADMIN && (
+          {isLoggedIn && (
             <Link
-              to="/admin/dashboard"
+              to="/studio"
               className="text-orange-500 hover:text-orange-600 hover:underline font-bold transition"
             >
-              Dashboard
+              Creator Studio
             </Link>
           )}
         </div>

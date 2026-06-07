@@ -7,15 +7,15 @@ import {
   getPodcastByIdInitiatedAction,
   getPodcastByIdCompletedAction,
   getPodcastByIdErrorAction,
-  addPodcastInitiatedAction,
-  addPodcastCompletedAction,
-  addPodcastErrorAction,
-  editPodcastCompletedAction,
-  editPodcastErrorAction,
-  editPodcastInitiatedAction,
+  createPodcastInitiatedAction,
+  createPodcastCompletedAction,
+  createPodcastErrorAction,
+  updatePodcastCompletedAction,
+  updatePodcastErrorAction,
+  updatePodcastInitiatedAction,
 } from "../slice/podcastSlice";
 import {
-  AddPodcastPayload,
+  CreatePodcastPayload,
   UpdatePodcastPayload,
   Podcast,
   PodcastMap,
@@ -29,7 +29,7 @@ import {
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { ResponsePayload } from "../../models/response";
 
-function* fetchAllPodcasts(): Generator {
+function* fetchAllPodcastsSaga(): Generator {
   try {
     const response = (yield call(getAllPodcasts)) as ResponsePayload<{
       allPodcasts: PodcastMap;
@@ -41,30 +41,30 @@ function* fetchAllPodcasts(): Generator {
   }
 }
 
-function* addNewPodcast(
-  action: PayloadAction<{ podcast: AddPodcastPayload }>
+function* createPodcastSaga(
+  action: PayloadAction<{ podcast: CreatePodcastPayload }>,
 ): Generator {
   try {
     const response = (yield call(
       createPodcast,
-      action.payload.podcast
+      action.payload.podcast,
     )) as ResponsePayload<{
       podcast: Podcast;
     }>;
-    yield put(addPodcastCompletedAction(response.responseDetails));
+    yield put(createPodcastCompletedAction(response.responseDetails));
   } catch (err: any) {
     const error = getErrorMessage(err);
-    yield put(addPodcastErrorAction({ error }));
+    yield put(createPodcastErrorAction({ error }));
   }
 }
 
-function* fetchPodcastById(
-  action: PayloadAction<{ id: string }>
+function* fetchPodcastByIdSaga(
+  action: PayloadAction<{ id: string }>,
 ): Generator {
   try {
     const response = (yield call(
       getPodcastById,
-      action.payload.id
+      action.payload.id,
     )) as ResponsePayload<{
       podcast: Podcast;
     }>;
@@ -75,28 +75,28 @@ function* fetchPodcastById(
   }
 }
 
-function* updateExistingPodcast(
-  action: PayloadAction<{ podcast: UpdatePodcastPayload }>
+function* updatePodcastSaga(
+  action: PayloadAction<{ podcast: UpdatePodcastPayload }>,
 ): Generator {
   try {
     const response = (yield call(
       updatePodcast,
-      action.payload.podcast
+      action.payload.podcast,
     )) as ResponsePayload<{
       podcast: Podcast;
     }>;
-    yield put(editPodcastCompletedAction(response.responseDetails));
+    yield put(updatePodcastCompletedAction(response.responseDetails));
   } catch (err: any) {
     const error = getErrorMessage(err);
-    yield put(editPodcastErrorAction({ error }));
+    yield put(updatePodcastErrorAction({ error }));
   }
 }
 
 function* podcastSaga() {
-  yield takeEvery(getAllPodcastsInitiatedAction, fetchAllPodcasts);
-  yield takeEvery(getPodcastByIdInitiatedAction, fetchPodcastById);
-  yield takeEvery(addPodcastInitiatedAction, addNewPodcast);
-  yield takeEvery(editPodcastInitiatedAction, updateExistingPodcast);
+  yield takeEvery(getAllPodcastsInitiatedAction, fetchAllPodcastsSaga);
+  yield takeEvery(getPodcastByIdInitiatedAction, fetchPodcastByIdSaga);
+  yield takeEvery(createPodcastInitiatedAction, createPodcastSaga);
+  yield takeEvery(updatePodcastInitiatedAction, updatePodcastSaga);
 }
 
 export default podcastSaga;

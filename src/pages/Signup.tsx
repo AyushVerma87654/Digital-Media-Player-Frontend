@@ -14,7 +14,7 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Full name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   role: Yup.mixed<UserRole>()
-    .oneOf([UserRole.USER, UserRole.ADMIN], "Select a valid role")
+    .oneOf([UserRole.USER], "Select a valid role")
     .required("Role is required"),
   password: Yup.string()
     .min(4, "Minimum 4 chars")
@@ -76,7 +76,6 @@ const Signup: FC<SignupProps & FormikProps<SignupPayload>> = ({
           {/* Row 3: Role */}
           <FormikSelect name="role" label="Role">
             <option value={UserRole.USER}>User</option>
-            <option value={UserRole.ADMIN}>Admin</option>
           </FormikSelect>
 
           {/* Row 4: Buttons */}

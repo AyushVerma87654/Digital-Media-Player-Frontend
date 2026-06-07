@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  AddPodcastPayload,
+  CreatePodcastPayload,
   Podcast,
   PodcastMap,
   Podcasts,
@@ -37,13 +37,13 @@ const podcastSlice = createSlice({
     getPodcastsByUserIdCompleted,
     getPodcastsByUserIdError,
 
-    addPodcastInitiated,
-    addPodcastCompleted,
-    addPodcastError,
+    createPodcastInitiated,
+    createPodcastCompleted,
+    createPodcastError,
 
-    editPodcastInitiated,
-    editPodcastCompleted,
-    editPodcastError,
+    updatePodcastInitiated,
+    updatePodcastCompleted,
+    updatePodcastError,
 
     deletePodcastInitiated,
     deletePodcastCompleted,
@@ -66,13 +66,13 @@ export const {
   getPodcastsByUserIdCompleted: getPodcastsByUserIdCompletedAction,
   getPodcastsByUserIdError: getPodcastsByUserIdErrorAction,
 
-  addPodcastInitiated: addPodcastInitiatedAction,
-  addPodcastCompleted: addPodcastCompletedAction,
-  addPodcastError: addPodcastErrorAction,
+  createPodcastInitiated: createPodcastInitiatedAction,
+  createPodcastCompleted: createPodcastCompletedAction,
+  createPodcastError: createPodcastErrorAction,
 
-  editPodcastInitiated: editPodcastInitiatedAction,
-  editPodcastCompleted: editPodcastCompletedAction,
-  editPodcastError: editPodcastErrorAction,
+  updatePodcastInitiated: updatePodcastInitiatedAction,
+  updatePodcastCompleted: updatePodcastCompletedAction,
+  updatePodcastError: updatePodcastErrorAction,
 
   deletePodcastInitiated: deletePodcastInitiatedAction,
   deletePodcastCompleted: deletePodcastCompletedAction,
@@ -89,18 +89,18 @@ function getAllPodcastsInitiated(state: PodcastState) {
 
 function getAllPodcastsCompleted(
   state: PodcastState,
-  action: PayloadAction<{ allPodcasts: PodcastMap }>
+  action: PayloadAction<{ allPodcasts: PodcastMap }>,
 ) {
   state.loading = false;
   action.payload.allPodcasts.forEach(
     (podcast) =>
-      (state.allPodcasts = { ...state.allPodcasts, [podcast.id]: podcast })
+      (state.allPodcasts = { ...state.allPodcasts, [podcast.id]: podcast }),
   );
 }
 
 function getAllPodcastsError(
   state: PodcastState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
@@ -108,7 +108,7 @@ function getAllPodcastsError(
 
 function getPodcastByIdInitiated(
   state: PodcastState,
-  action: PayloadAction<{ id: string }>
+  action: PayloadAction<{ id: string }>,
 ) {
   state.loading = true;
   state.selectedPodcastId = action.payload.id;
@@ -116,7 +116,7 @@ function getPodcastByIdInitiated(
 
 function getPodcastByIdCompleted(
   state: PodcastState,
-  action: PayloadAction<{ podcast: Podcast }>
+  action: PayloadAction<{ podcast: Podcast }>,
 ) {
   state.loading = false;
   state.allPodcasts = {
@@ -127,7 +127,7 @@ function getPodcastByIdCompleted(
 
 function getPodcastByIdError(
   state: PodcastState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
@@ -135,40 +135,40 @@ function getPodcastByIdError(
 
 function getPodcastsByUserIdInitiated(
   state: PodcastState,
-  _action: PayloadAction<{ userId: string }>
+  _action: PayloadAction<{ userId: string }>,
 ) {
   state.loading = true;
 }
 
 function getPodcastsByUserIdCompleted(
   state: PodcastState,
-  action: PayloadAction<{ podcasts: Podcast[] }>
+  action: PayloadAction<{ podcasts: Podcast[] }>,
 ) {
   state.loading = false;
   action.payload.podcasts.forEach(
     (podcast) =>
-      (state.allPodcasts = { ...state.allPodcasts, [podcast.id]: podcast })
+      (state.allPodcasts = { ...state.allPodcasts, [podcast.id]: podcast }),
   );
 }
 
 function getPodcastsByUserIdError(
   state: PodcastState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
 }
 
-function addPodcastInitiated(
+function createPodcastInitiated(
   state: PodcastState,
-  _action: PayloadAction<{ podcast: AddPodcastPayload }>
+  _action: PayloadAction<{ podcast: CreatePodcastPayload }>,
 ) {
   state.loading = true;
 }
 
-function addPodcastCompleted(
+function createPodcastCompleted(
   state: PodcastState,
-  action: PayloadAction<{ podcast: Podcast }>
+  action: PayloadAction<{ podcast: Podcast }>,
 ) {
   state.loading = false;
   state.allPodcasts = {
@@ -177,24 +177,24 @@ function addPodcastCompleted(
   };
 }
 
-function addPodcastError(
+function createPodcastError(
   state: PodcastState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
 }
 
-function editPodcastInitiated(
+function updatePodcastInitiated(
   state: PodcastState,
-  _action: PayloadAction<{ podcast: UpdatePodcastPayload }>
+  _action: PayloadAction<{ podcast: UpdatePodcastPayload }>,
 ) {
   state.loading = true;
 }
 
-function editPodcastCompleted(
+function updatePodcastCompleted(
   state: PodcastState,
-  action: PayloadAction<{ podcast: Podcast }>
+  action: PayloadAction<{ podcast: Podcast }>,
 ) {
   state.loading = false;
   state.allPodcasts = {
@@ -204,9 +204,9 @@ function editPodcastCompleted(
   state.selectedPodcastId = "";
 }
 
-function editPodcastError(
+function updatePodcastError(
   state: PodcastState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;
@@ -214,14 +214,14 @@ function editPodcastError(
 
 function deletePodcastInitiated(
   state: PodcastState,
-  _action: PayloadAction<string>
+  _action: PayloadAction<string>,
 ) {
   state.loading = true;
 }
 
 function deletePodcastCompleted(
   state: PodcastState,
-  action: PayloadAction<{ id: string; message: string }>
+  action: PayloadAction<{ id: string; message: string }>,
 ) {
   state.loading = false;
   delete state.allPodcasts[action.payload.id];
@@ -230,7 +230,7 @@ function deletePodcastCompleted(
 
 function deletePodcastError(
   state: PodcastState,
-  action: PayloadAction<{ error: string }>
+  action: PayloadAction<{ error: string }>,
 ) {
   state.loading = false;
   state.message = action.payload.error;

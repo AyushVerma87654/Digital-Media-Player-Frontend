@@ -7,18 +7,18 @@ import {
   getTrackByIdInitiatedAction,
   getTrackByIdCompletedAction,
   getTrackByIdErrorAction,
-  addTrackInitiatedAction,
-  addTrackCompletedAction,
-  addTrackErrorAction,
-  editTrackCompletedAction,
-  editTrackErrorAction,
-  editTrackInitiatedAction,
+  createTrackInitiatedAction,
+  createTrackCompletedAction,
+  createTrackErrorAction,
+  updateTrackCompletedAction,
+  updateTrackErrorAction,
+  updateTrackInitiatedAction,
   deleteTrackInitiatedAction,
   deleteTrackErrorAction,
   deleteTrackCompletedAction,
 } from "../slice/trackSlice";
 import {
-  AddTrackPayload,
+  CreateTrackPayload,
   UpdateTrackPayload,
   Track,
   TrackMap,
@@ -33,7 +33,7 @@ import {
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { ResponsePayload } from "../../models/response";
 
-function* fetchAllTracks(): Generator {
+function* fetchAllTracksSaga(): Generator {
   try {
     const response = (yield call(getAllTracks)) as ResponsePayload<{
       allTracks: TrackMap;
@@ -45,28 +45,26 @@ function* fetchAllTracks(): Generator {
   }
 }
 
-function* addNewTrack(
-  action: PayloadAction<{ track: AddTrackPayload }>
+function* createTrackSaga(
+  action: PayloadAction<{ track: CreateTrackPayload }>,
 ): Generator {
   try {
     const response = (yield call(
       createTrack,
-      action.payload.track
+      action.payload.track,
     )) as ResponsePayload<{ track: Track }>;
-    yield put(addTrackCompletedAction(response.responseDetails));
+    yield put(createTrackCompletedAction(response.responseDetails));
   } catch (err: any) {
     const error = getErrorMessage(err);
-    yield put(addTrackErrorAction({ error }));
+    yield put(createTrackErrorAction({ error }));
   }
 }
 
-function* fetchTrackById(
-  action: PayloadAction<{ id: string }>
-): Generator {
+function* fetchTrackByIdSaga(action: PayloadAction<{ id: string }>): Generator {
   try {
     const response = (yield call(
       getTrackById,
-      action.payload.id
+      action.payload.id,
     )) as ResponsePayload<{ track: Track }>;
     yield put(getTrackByIdCompletedAction(response.responseDetails));
   } catch (err: any) {
@@ -75,26 +73,26 @@ function* fetchTrackById(
   }
 }
 
-function* updateExistingTrack(
-  action: PayloadAction<{ track: UpdateTrackPayload }>
+function* updateTrackSaga(
+  action: PayloadAction<{ track: UpdateTrackPayload }>,
 ): Generator {
   try {
     const response = (yield call(
       updateTrack,
-      action.payload.track
+      action.payload.track,
     )) as ResponsePayload<{ track: Track }>;
-    yield put(editTrackCompletedAction(response.responseDetails));
+    yield put(updateTrackCompletedAction(response.responseDetails));
   } catch (err: any) {
     const error = getErrorMessage(err);
-    yield put(editTrackErrorAction({ error }));
+    yield put(updateTrackErrorAction({ error }));
   }
 }
 
-function* deletingTrack(action: PayloadAction<string>): Generator {
+function* deleteTrackSaga(action: PayloadAction<string>): Generator {
   try {
     const response = (yield call(
       deleteTrack,
-      action.payload
+      action.payload,
     )) as ResponsePayload<{
       id: string;
       message: string;
@@ -107,11 +105,11 @@ function* deletingTrack(action: PayloadAction<string>): Generator {
 }
 
 function* trackSaga() {
-  yield takeEvery(getAllTracksInitiatedAction, fetchAllTracks);
-  yield takeEvery(getTrackByIdInitiatedAction, fetchTrackById);
-  yield takeEvery(addTrackInitiatedAction, addNewTrack);
-  yield takeEvery(editTrackInitiatedAction, updateExistingTrack);
-  yield takeEvery(deleteTrackInitiatedAction, deletingTrack);
+  yield takeEvery(getAllTracksInitiatedAction, fetchAllTracksSaga);
+  yield takeEvery(getTrackByIdInitiatedAction, fetchTrackByIdSaga);
+  yield takeEvery(createTrackInitiatedAction, createTrackSaga);
+  yield takeEvery(updateTrackInitiatedAction, updateTrackSaga);
+  yield takeEvery(deleteTrackInitiatedAction, deleteTrackSaga);
 }
 
 export default trackSaga;

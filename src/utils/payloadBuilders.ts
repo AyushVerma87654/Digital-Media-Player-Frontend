@@ -1,10 +1,10 @@
-import { AudioFormValues } from "../components/AudioForm";
+import { MediaEditorValues } from "../models/mediaEditor";
 import { AddPodcastPayload, UpdatePodcastPayload } from "../models/podcast";
 import { AddTrackPayload, UpdateTrackPayload } from "../models/track";
 
-export const buildAddTrackPayload = (
-  values: AudioFormValues,
-  userId: string
+export const buildCreateTrackPayload = (
+  values: MediaEditorValues,
+  userId: string,
 ): AddTrackPayload => {
   if (!values.artist || !values.album) {
     throw new Error("Artist and Album is required");
@@ -22,9 +22,9 @@ export const buildAddTrackPayload = (
 };
 
 export const buildEditTrackPayload = (
-  values: AudioFormValues,
+  values: MediaEditorValues,
   id: string,
-  userId: string
+  userId: string,
 ): UpdateTrackPayload => {
   if (!values.artist || !values.album) {
     throw new Error("Artist and Album is required");
@@ -42,9 +42,9 @@ export const buildEditTrackPayload = (
   };
 };
 
-export const buildAddPodcastPayload = (
-  values: AudioFormValues,
-  userId: string
+export const buildCreatePodcastPayload = (
+  values: MediaEditorValues,
+  userId: string,
 ): AddPodcastPayload => {
   if (!values.author || !values.episodeTitle || !values.description) {
     throw new Error("Author, description and episode title are required");
@@ -64,9 +64,9 @@ export const buildAddPodcastPayload = (
 };
 
 export const buildEditPodcastPayload = (
-  values: AudioFormValues,
+  values: MediaEditorValues,
   id: string,
-  userId: string
+  userId: string,
 ): UpdatePodcastPayload => {
   if (!values.author || !values.episodeTitle || !values.description) {
     throw new Error("Author, description and episode title are required");

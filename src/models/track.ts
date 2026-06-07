@@ -14,7 +14,7 @@ export type Track = {
 export type Tracks = Record<string, Track>;
 export type TrackMap = Track[];
 
-export type AddTrackPayload = {
+export type CreateTrackPayload = {
   title: string;
   artist: string;
   album: string;
@@ -24,6 +24,6 @@ export type AddTrackPayload = {
   createdBy: string;
 };
 
-export type UpdateTrackPayload = AddTrackPayload & {
+export type UpdateTrackPayload = CreateTrackPayload & {
   id: string;
 };

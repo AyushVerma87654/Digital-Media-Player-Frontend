@@ -13,7 +13,7 @@ import {
   FiPlus,
 } from "react-icons/fi";
 import Button from "../components/Button";
-import AddAudioToPlaylistModal from "../components/AddAudioToPlaylistModal";
+import AddAudioToPlaylistModal from "../components/AddMediaToPlaylistModal";
 import { PlaylistAudio } from "../models/playlists";
 import { Podcast } from "../models/podcast";
 import { AudioContentType } from "../models/recentlyPlayed";
